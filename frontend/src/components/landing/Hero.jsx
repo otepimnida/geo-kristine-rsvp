@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Button from "../ui/Button";
 import { useNavigate } from "react-router-dom";
 
 import { theme } from "../../styles/theme";
@@ -65,23 +66,9 @@ function Hero() {
           Request the honor of your presence
         </p>
 
-        <motion.button
-          whileHover={{
-            scale: 1.05,
-          }}
-          whileTap={{
-            scale: 0.96,
-          }}
-          onClick={() => navigate(ROUTES.RSVP)}
-          className="rounded-full px-10 py-4 text-lg font-medium transition-all"
-          style={{
-            background: theme.colors.primary,
-            color: theme.colors.background,
-            fontFamily: theme.fonts.body,
-          }}
-        >
+        <Button onClick={() => navigate(ROUTES.RSVP)}>
           Confirm Attendance
-        </motion.button>
+        </Button>
       </motion.div>
     </section>
   );
