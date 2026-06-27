@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
+import { theme } from "../../styles/theme";
+import { ROUTES } from "../../utils/constants";
+
 function Hero() {
   const navigate = useNavigate();
 
@@ -15,8 +18,8 @@ function Hero() {
         <p
           className="mb-4 tracking-[0.35em] uppercase"
           style={{
-            color: "#687F9A",
-            fontFamily: "Poppins",
+            color: theme.colors.secondary,
+            fontFamily: theme.fonts.body,
           }}
         >
           Together with our families
@@ -25,8 +28,8 @@ function Hero() {
         <h1
           className="mb-2 text-6xl font-semibold md:text-7xl"
           style={{
-            color: "#010048",
-            fontFamily: "Cinzel",
+            color: theme.colors.primary,
+            fontFamily: theme.fonts.heading,
           }}
         >
           Geo
@@ -35,8 +38,8 @@ function Hero() {
         <h2
           className="mb-2 text-3xl"
           style={{
-            color: "#D5AD36",
-            fontFamily: "Cormorant Garamond",
+            color: theme.colors.gold,
+            fontFamily: theme.fonts.elegant,
           }}
         >
           &
@@ -45,8 +48,8 @@ function Hero() {
         <h1
           className="mb-8 text-6xl font-semibold md:text-7xl"
           style={{
-            color: "#010048",
-            fontFamily: "Cinzel",
+            color: theme.colors.primary,
+            fontFamily: theme.fonts.heading,
           }}
         >
           Kristine Mae
@@ -55,8 +58,8 @@ function Hero() {
         <p
           className="mb-10 text-lg"
           style={{
-            color: "#687F9A",
-            fontFamily: "Poppins",
+            color: theme.colors.secondary,
+            fontFamily: theme.fonts.body,
           }}
         >
           Request the honor of your presence
@@ -69,11 +72,12 @@ function Hero() {
           whileTap={{
             scale: 0.96,
           }}
-          onClick={() => navigate("/rsvp")}
+          onClick={() => navigate(ROUTES.RSVP)}
           className="rounded-full px-10 py-4 text-lg font-medium transition-all"
           style={{
-            background: "#010048",
-            color: "#FFFFFF",
+            background: theme.colors.primary,
+            color: theme.colors.background,
+            fontFamily: theme.fonts.body,
           }}
         >
           Confirm Attendance
