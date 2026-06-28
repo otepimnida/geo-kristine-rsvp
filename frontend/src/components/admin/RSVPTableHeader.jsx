@@ -1,0 +1,30 @@
+import { theme } from "../../styles/theme";
+
+function RSVPTableHeader() {
+  const headers = ["Guest Name", "Attendance", "Guests", "Message", "Date"];
+
+  return (
+    <thead
+      style={{
+        background: "#F8FAFC",
+      }}
+    >
+      <tr>
+        {headers.map((header) => (
+          <th
+            key={header}
+            className="px-6 py-4 text-left text-sm font-semibold"
+            style={{
+              color: theme.colors.primary,
+              fontFamily: theme.fonts.body,
+            }}
+          >
+            {header}
+          </th>
+        ))}
+      </tr>
+    </thead>
+  );
+}
+
+export default RSVPTableHeader;
