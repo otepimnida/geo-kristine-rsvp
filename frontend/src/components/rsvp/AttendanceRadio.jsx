@@ -8,6 +8,10 @@ function AttendanceRadio() {
     formState: { errors },
   } = useFormContext();
 
+  const attendanceRegister = register("attendance", {
+    required: "Please select your attendance.",
+  });
+
   return (
     <div className="space-y-4">
       <h3 className="text-sm font-medium">Will You Attend?</h3>
@@ -16,18 +20,19 @@ function AttendanceRadio() {
         <Radio
           label="Yes, Joyfully!"
           value="Yes, Joyfully!"
-          error={errors.attendance?.message}
-          {...register("attendance", {
-            required: "Please select your attendance.",
-          })}
+          {...attendanceRegister}
         />
 
         <Radio
           label="Regretfully, No"
           value="Regretfully, No"
-          {...register("attendance")}
+          {...attendanceRegister}
         />
       </div>
+
+      {errors.attendance && (
+        <p className="text-sm text-red-500">{errors.attendance.message}</p>
+      )}
     </div>
   );
 }

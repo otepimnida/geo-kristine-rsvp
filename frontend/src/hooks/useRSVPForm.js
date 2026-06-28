@@ -24,7 +24,7 @@ function useRSVPForm() {
         await Swal.fire({
           icon: "success",
           title: "RSVP Submitted",
-          text: "Thank you for your response. We look forward to celebrating with you!",
+          text: response.data.message,
           confirmButtonColor: "#010048",
         });
 
