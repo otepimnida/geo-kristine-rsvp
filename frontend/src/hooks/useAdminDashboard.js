@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { getAllRSVPs } from "../services/adminService";
+import useAutoRefresh from "./useAutoRefresh";
 
 function useAdminDashboard() {
   const [rsvps, setRSVPs] = useState([]);
@@ -9,20 +10,28 @@ function useAdminDashboard() {
   const [search, setSearch] = useState("");
   const [attendance, setAttendance] = useState("All");
 
-  useEffect(() => {
-    async function loadRSVPs() {
-      try {
-        const data = await getAllRSVPs();
-        setRSVPs(data);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    }
+  const [lastUpdated, setLastUpdated] = useState(null);
 
-    loadRSVPs();
+  const loadRSVPs = useCallback(async () => {
+    try {
+      const data = await getAllRSVPs();
+
+      setRSVPs(data);
+
+      setLastUpdated(new Date());
+    } catch (error) {
+      console.error("Failed to load RSVPs:", error);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    loadRSVPs();
+  }, [loadRSVPs]);
+
+  // Refresh every 15 seconds
+  useAutoRefresh(loadRSVPs, 15000);
 
   const filteredRSVPs = useMemo(() => {
     return rsvps.filter((guest) => {
@@ -51,6 +60,7 @@ function useAdminDashboard() {
 
   return {
     loading,
+
     statistics,
 
     search,
@@ -60,6 +70,10 @@ function useAdminDashboard() {
     setAttendance,
 
     filteredRSVPs,
+
+    lastUpdated,
+
+    refreshDashboard: loadRSVPs,
   };
 }
 
