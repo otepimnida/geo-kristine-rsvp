@@ -4,7 +4,6 @@ import { getAllRSVPs } from "../services/adminService";
 
 function useAdminDashboard() {
   const [rsvps, setRSVPs] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,7 +13,7 @@ function useAdminDashboard() {
 
         setRSVPs(data);
       } catch (error) {
-        console.error(error);
+        console.error("Failed to load RSVPs:", error);
       } finally {
         setLoading(false);
       }
