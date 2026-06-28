@@ -1,4 +1,7 @@
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+
+import api from "../services/api";
 
 function useRSVPForm() {
   const methods = useForm({
@@ -11,12 +14,41 @@ function useRSVPForm() {
     mode: "onBlur",
   });
 
-  const onSubmit = async (data) => {
-    console.log("RSVP Data:", data);
+  const { reset, setError } = methods;
 
-    // Backend API will be connected in the next milestone.
+  const onSubmit = async (formData) => {
+    try {
+      const response = await api.post("/rsvp", formData);
 
-    methods.reset();
+      if (response.data.success) {
+        await Swal.fire({
+          icon: "success",
+          title: "RSVP Submitted",
+          text: "Thank you for your response. We look forward to celebrating with you!",
+          confirmButtonColor: "#010048",
+        });
+
+        reset();
+      }
+    } catch (error) {
+      if (error.response) {
+        await Swal.fire({
+          icon: "error",
+          title: "Submission Failed",
+          text: error.response.data.message || "Unable to submit your RSVP.",
+          confirmButtonColor: "#010048",
+        });
+      } else {
+        await Swal.fire({
+          icon: "error",
+          title: "Server Error",
+          text: "Unable to connect to the server.",
+          confirmButtonColor: "#010048",
+        });
+      }
+
+      console.error(error);
+    }
   };
 
   return {
