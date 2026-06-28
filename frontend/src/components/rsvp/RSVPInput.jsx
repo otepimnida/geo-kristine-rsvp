@@ -1,5 +1,7 @@
+import Input from "../ui/Input";
+
 function RSVPInput() {
-  return <div className="border rounded-xl p-4">Full Name Input</div>;
+  return <Input label="Full Name" placeholder="Enter your full name" />;
 }
 
 export default RSVPInput;

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import Button from "../ui/Button";
 import { useNavigate } from "react-router-dom";
+
+import Button from "../ui/Button";
 
 import { theme } from "../../styles/theme";
 import { ROUTES } from "../../utils/constants";
