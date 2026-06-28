@@ -1,5 +1,17 @@
+import { useFormContext } from "react-hook-form";
+
+import Textarea from "../ui/Textarea";
+
 function MessageTextarea() {
-  return <div className="border rounded-xl p-4">Message Textarea</div>;
+  const { register } = useFormContext();
+
+  return (
+    <Textarea
+      label="Message for the Couple"
+      placeholder="Write your heartfelt message here..."
+      {...register("message")}
+    />
+  );
 }
 
 export default MessageTextarea;

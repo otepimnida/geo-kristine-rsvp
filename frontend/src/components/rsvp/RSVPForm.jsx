@@ -1,12 +1,24 @@
+import { FormProvider } from "react-hook-form";
+
 import RSVPInput from "./RSVPInput";
 import AttendanceRadio from "./AttendanceRadio";
 import GuestCounter from "./GuestCounter";
 import MessageTextarea from "./MessageTextarea";
+
 import Button from "../ui/Button";
+
+import useRSVPForm from "../../hooks/useRSVPForm";
 
 import { theme } from "../../styles/theme";
 
 function RSVPForm() {
+  const { methods, onSubmit } = useRSVPForm();
+
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
+
   return (
     <section
       className="rounded-3xl border p-10"
@@ -36,19 +48,21 @@ function RSVPForm() {
         We'd be honored to celebrate with you.
       </p>
 
-      <div className="space-y-8">
-        <RSVPInput />
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          <RSVPInput />
 
-        <AttendanceRadio />
+          <AttendanceRadio />
 
-        <GuestCounter />
+          <GuestCounter />
 
-        <MessageTextarea />
+          <MessageTextarea />
 
-        <div className="pt-4">
-          <Button className="w-full">Submit RSVP</Button>
-        </div>
-      </div>
+          <Button type="submit" className="w-full">
+            {isSubmitting ? "Submitting..." : "Submit RSVP"}
+          </Button>
+        </form>
+      </FormProvider>
     </section>
   );
 }
