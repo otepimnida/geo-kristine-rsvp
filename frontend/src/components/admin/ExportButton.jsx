@@ -2,6 +2,8 @@ import { FaFileExcel } from "react-icons/fa";
 
 import { exportRSVPsToExcel } from "../../services/exportService";
 
+import { theme } from "../../styles/theme";
+
 function ExportButton({ rsvps }) {
   return (
     <button
@@ -9,18 +11,24 @@ function ExportButton({ rsvps }) {
       className="
         flex
         items-center
-        gap-2
-        rounded-xl
-        bg-green-600
-        px-5
+        justify-center
+        gap-3
+        rounded-2xl
+        px-6
         py-3
-        text-white
         transition-all
-        hover:bg-green-700
+        duration-300
+        hover:-translate-y-0.5
+        hover:shadow-lg
       "
+      style={{
+        background: theme.colors.primary,
+        color: "#FFFFFF",
+      }}
     >
-      <FaFileExcel />
-      Export Excel
+      <FaFileExcel size={20} />
+
+      <span className="font-medium">Export RSVP Report</span>
     </button>
   );
 }

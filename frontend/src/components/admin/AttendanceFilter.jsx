@@ -2,9 +2,9 @@ import { theme } from "../../styles/theme";
 
 function AttendanceFilter({ value, onChange }) {
   return (
-    <div className="mb-8">
+    <div className="w-full lg:w-64">
       <label
-        className="mb-2 block text-sm font-medium"
+        className="mb-2 block text-sm font-semibold"
         style={{
           color: theme.colors.primary,
           fontFamily: theme.fonts.body,
@@ -16,7 +16,16 @@ function AttendanceFilter({ value, onChange }) {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2"
+        className="
+          w-full
+          rounded-2xl
+          border
+          px-4
+          py-3
+          outline-none
+          transition-all
+          focus:ring-2
+        "
         style={{
           borderColor: theme.colors.border,
         }}

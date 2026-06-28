@@ -1,3 +1,4 @@
+import { FaHeart } from "react-icons/fa";
 import { theme } from "../../styles/theme";
 
 function DashboardHeader({ lastUpdated }) {
@@ -5,26 +6,41 @@ function DashboardHeader({ lastUpdated }) {
     ? lastUpdated.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
-        second: "2-digit",
       })
-    : "--:--:--";
+    : "--:--";
 
   return (
-    <header className="mb-10">
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+    <header
+      className="mb-12 rounded-3xl border p-8"
+      style={{
+        background: theme.colors.background,
+        borderColor: theme.colors.border,
+        boxShadow: theme.shadow.card,
+      }}
+    >
+      <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+        {/* Left Side */}
         <div>
-          <p
-            className="mb-2 uppercase tracking-[0.35em] text-sm"
-            style={{
-              color: theme.colors.secondary,
-              fontFamily: theme.fonts.body,
-            }}
-          >
-            Geo & Kristine
-          </p>
+          <div className="mb-3 flex items-center gap-3">
+            <FaHeart
+              style={{
+                color: theme.colors.primary,
+              }}
+            />
+
+            <p
+              className="uppercase tracking-[0.35em] text-sm font-semibold"
+              style={{
+                color: theme.colors.secondary,
+                fontFamily: theme.fonts.body,
+              }}
+            >
+              Geo & Kristine
+            </p>
+          </div>
 
           <h1
-            className="text-5xl"
+            className="text-5xl font-semibold"
             style={{
               color: theme.colors.primary,
               fontFamily: theme.fonts.heading,
@@ -34,25 +50,26 @@ function DashboardHeader({ lastUpdated }) {
           </h1>
 
           <p
-            className="mt-4"
+            className="mt-4 max-w-2xl leading-7"
             style={{
               color: theme.colors.secondary,
               fontFamily: theme.fonts.body,
             }}
           >
-            Manage guest responses for your wedding celebration.
+            Manage guest responses, monitor attendance, and export RSVP reports
+            for your wedding celebration.
           </p>
         </div>
 
+        {/* Right Side */}
         <div
-          className="rounded-2xl border px-6 py-4 text-center"
+          className="min-w-[220px] rounded-2xl border px-6 py-5"
           style={{
             borderColor: theme.colors.border,
-            background: theme.colors.background,
-            boxShadow: theme.shadow.card,
+            background: "#FFFFFF",
           }}
         >
-          <div className="mb-2 flex items-center justify-center gap-2">
+          <div className="mb-3 flex items-center gap-2">
             <span className="h-3 w-3 rounded-full bg-green-500 animate-pulse"></span>
 
             <span
@@ -62,7 +79,7 @@ function DashboardHeader({ lastUpdated }) {
                 fontFamily: theme.fonts.body,
               }}
             >
-              Auto Refresh Enabled
+              Live Dashboard
             </span>
           </div>
 
@@ -77,7 +94,7 @@ function DashboardHeader({ lastUpdated }) {
           </p>
 
           <p
-            className="mt-1 text-lg font-semibold"
+            className="mt-1 text-xl font-semibold"
             style={{
               color: theme.colors.primary,
               fontFamily: theme.fonts.heading,

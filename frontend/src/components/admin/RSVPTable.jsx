@@ -2,7 +2,7 @@ import RSVPTableHeader from "./RSVPTableHeader";
 import RSVPTableRow from "./RSVPTableRow";
 import EmptyState from "./EmptyState";
 
-function RSVPTable({ rsvps, hasFilters }) {
+function RSVPTable({ rsvps, hasFilters, onViewGuest }) {
   if (rsvps.length === 0) {
     if (hasFilters) {
       return (
@@ -36,6 +36,7 @@ function RSVPTable({ rsvps, hasFilters }) {
               key={guest.id}
               index={index}
               {...guest}
+              onView={() => onViewGuest(guest)}
             />
           ))}
         </tbody>

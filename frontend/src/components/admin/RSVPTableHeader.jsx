@@ -1,7 +1,14 @@
 import { theme } from "../../styles/theme";
 
 function RSVPTableHeader() {
-  const headers = ["Guest Name", "Attendance", "Guests", "Message", "Date"];
+  const headers = [
+    "Guest Name",
+    "Attendance",
+    "Guests",
+    "Message",
+    "Date",
+    "Actions",
+  ];
 
   return (
     <thead
@@ -16,7 +23,7 @@ function RSVPTableHeader() {
             key={header}
             className="
               px-6
-              py-4
+              py-5
               text-left
               text-sm
               font-semibold
