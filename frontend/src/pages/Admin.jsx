@@ -4,12 +4,22 @@ import SearchBar from "../components/admin/SearchBar";
 import AttendanceFilter from "../components/admin/AttendanceFilter";
 import RSVPTable from "../components/admin/RSVPTable";
 import LoadingState from "../components/admin/LoadingState";
-import EmptyState from "../components/admin/EmptyState";
 
 import useAdminDashboard from "../hooks/useAdminDashboard";
 
 function Admin() {
-  const { rsvps, statistics, loading } = useAdminDashboard();
+  const {
+    loading,
+    statistics,
+
+    search,
+    setSearch,
+
+    attendance,
+    setAttendance,
+
+    filteredRSVPs,
+  } = useAdminDashboard();
 
   if (loading) {
     return (
@@ -26,15 +36,14 @@ function Admin() {
 
       <StatisticsCards statistics={statistics} />
 
-      {rsvps.length === 0 ? (
-        <EmptyState />
-      ) : (
-        <>
-          <SearchBar />
-          <AttendanceFilter />
-          <RSVPTable rsvps={rsvps} />
-        </>
-      )}
+      <SearchBar value={search} onChange={setSearch} />
+
+      <AttendanceFilter value={attendance} onChange={setAttendance} />
+
+      <RSVPTable
+        rsvps={filteredRSVPs}
+        hasFilters={search.trim() !== "" || attendance !== "All"}
+      />
     </main>
   );
 }

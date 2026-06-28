@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { getAllRSVPs } from "../services/adminService";
 
@@ -6,14 +6,16 @@ function useAdminDashboard() {
   const [rsvps, setRSVPs] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [search, setSearch] = useState("");
+  const [attendance, setAttendance] = useState("All");
+
   useEffect(() => {
     async function loadRSVPs() {
       try {
         const data = await getAllRSVPs();
-
         setRSVPs(data);
       } catch (error) {
-        console.error("Failed to load RSVPs:", error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
@@ -21,6 +23,19 @@ function useAdminDashboard() {
 
     loadRSVPs();
   }, []);
+
+  const filteredRSVPs = useMemo(() => {
+    return rsvps.filter((guest) => {
+      const matchesSearch = guest.fullName
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesAttendance =
+        attendance === "All" || guest.attendance === attendance;
+
+      return matchesSearch && matchesAttendance;
+    });
+  }, [rsvps, search, attendance]);
 
   const statistics = {
     totalRSVPs: rsvps.length,
@@ -35,9 +50,16 @@ function useAdminDashboard() {
   };
 
   return {
-    rsvps,
-    statistics,
     loading,
+    statistics,
+
+    search,
+    setSearch,
+
+    attendance,
+    setAttendance,
+
+    filteredRSVPs,
   };
 }
 

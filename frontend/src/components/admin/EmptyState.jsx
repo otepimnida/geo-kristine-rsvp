@@ -1,6 +1,10 @@
 import { theme } from "../../styles/theme";
 
-function EmptyState() {
+function EmptyState({
+  icon = "💌",
+  title = "No RSVP Submissions Yet",
+  message = "Once your guests begin responding, their RSVP submissions will appear here.",
+}) {
   return (
     <div
       className="rounded-3xl border py-20 text-center"
@@ -10,7 +14,7 @@ function EmptyState() {
         boxShadow: theme.shadow.card,
       }}
     >
-      <div className="text-6xl mb-4">💌</div>
+      <div className="mb-4 text-6xl">{icon}</div>
 
       <h2
         className="text-3xl"
@@ -19,7 +23,7 @@ function EmptyState() {
           fontFamily: theme.fonts.heading,
         }}
       >
-        No RSVP Submissions Yet
+        {title}
       </h2>
 
       <p
@@ -29,8 +33,7 @@ function EmptyState() {
           fontFamily: theme.fonts.body,
         }}
       >
-        Once your guests begin responding, their RSVP submissions will appear
-        here.
+        {message}
       </p>
     </div>
   );

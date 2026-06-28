@@ -5,6 +5,7 @@ function RSVPTableHeader() {
 
   return (
     <thead
+      className="sticky top-0 z-10"
       style={{
         background: "#F8FAFC",
       }}
@@ -13,7 +14,14 @@ function RSVPTableHeader() {
         {headers.map((header) => (
           <th
             key={header}
-            className="px-6 py-4 text-left text-sm font-semibold"
+            className="
+              px-6
+              py-4
+              text-left
+              text-sm
+              font-semibold
+              whitespace-nowrap
+            "
             style={{
               color: theme.colors.primary,
               fontFamily: theme.fonts.body,

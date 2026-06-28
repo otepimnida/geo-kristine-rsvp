@@ -1,6 +1,6 @@
 import { theme } from "../../styles/theme";
 
-function SearchBar() {
+function SearchBar({ value, onChange }) {
   return (
     <div className="mb-6">
       <label
@@ -15,8 +15,10 @@ function SearchBar() {
 
       <input
         type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         placeholder="Search by guest name..."
-        className="w-full rounded-xl border px-4 py-3 outline-none transition focus:ring-2"
+        className="w-full rounded-xl border px-4 py-3 outline-none focus:ring-2"
         style={{
           borderColor: theme.colors.border,
         }}
