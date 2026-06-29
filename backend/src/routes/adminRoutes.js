@@ -8,10 +8,12 @@ const {
   deleteDashboardRSVP,
 } = require("../controllers/adminController");
 
-router.get("/rsvps", getDashboardRSVPs);
+const { authenticateToken } = require("../middleware/authMiddleware");
 
-router.put("/rsvps/:id", updateDashboardRSVP);
+router.get("/rsvps", authenticateToken, getDashboardRSVPs);
 
-router.delete("/rsvps/:id", deleteDashboardRSVP);
+router.put("/rsvps/:id", authenticateToken, updateDashboardRSVP);
+
+router.delete("/rsvps/:id", authenticateToken, deleteDashboardRSVP);
 
 module.exports = router;
