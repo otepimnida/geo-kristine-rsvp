@@ -1,6 +1,7 @@
 const {
   getAllRSVPs,
   updateRSVP,
+  deleteRSVP,
 } = require("../services/adminDashboardService");
 
 async function getDashboardRSVPs(req, res, next) {
@@ -32,7 +33,23 @@ async function updateDashboardRSVP(req, res, next) {
   }
 }
 
+async function deleteDashboardRSVP(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    await deleteRSVP(id);
+
+    res.status(200).json({
+      success: true,
+      message: "RSVP deleted successfully.",
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   getDashboardRSVPs,
   updateDashboardRSVP,
+  deleteDashboardRSVP,
 };

@@ -33,7 +33,18 @@ async function updateRSVP(id, updatedData) {
   return data;
 }
 
+async function deleteRSVP(id) {
+  const { error } = await supabase.from("rsvps").delete().eq("id", id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return true;
+}
+
 module.exports = {
   getAllRSVPs,
   updateRSVP,
+  deleteRSVP,
 };
