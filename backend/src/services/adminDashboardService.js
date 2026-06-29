@@ -10,17 +10,30 @@ async function getAllRSVPs() {
     throw new Error(error.message);
   }
 
-  // Convert database column names to frontend-friendly property names
-  return data.map((rsvp) => ({
-    id: rsvp.id,
-    fullName: rsvp.full_name,
-    attendance: rsvp.attendance,
-    guestCount: rsvp.guest_count,
-    message: rsvp.message,
-    createdAt: rsvp.created_at,
-  }));
+  return data;
+}
+
+async function updateRSVP(id, updatedData) {
+  const { data, error } = await supabase
+    .from("rsvps")
+    .update({
+      full_name: updatedData.fullName,
+      attendance: updatedData.attendance,
+      guest_count: updatedData.guestCount,
+      message: updatedData.message,
+    })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return data;
 }
 
 module.exports = {
   getAllRSVPs,
+  updateRSVP,
 };
