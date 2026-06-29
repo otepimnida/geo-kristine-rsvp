@@ -4,7 +4,7 @@ import { MdCelebration } from "react-icons/md";
 
 import { theme } from "../../styles/theme";
 
-function RSVPDetailsModal({ open, guest, onClose }) {
+function RSVPDetailsModal({ open, guest, onClose, onEdit }) {
   if (!open || !guest) return null;
 
   return (
@@ -132,10 +132,21 @@ function RSVPDetailsModal({ open, guest, onClose }) {
 
           {/* Footer */}
 
-          <div className="mt-10 text-center">
+          <div className="mt-10 flex justify-end gap-4">
+            <button
+              onClick={() => onEdit(guest)}
+              className="rounded-xl border px-6 py-3 transition hover:bg-slate-100"
+              style={{
+                borderColor: theme.colors.border,
+                color: theme.colors.primary,
+              }}
+            >
+              ✏ Edit RSVP
+            </button>
+
             <button
               onClick={onClose}
-              className="rounded-xl px-8 py-3 text-white transition hover:opacity-90"
+              className="rounded-xl px-6 py-3 text-white transition hover:opacity-90"
               style={{
                 background: theme.colors.primary,
               }}

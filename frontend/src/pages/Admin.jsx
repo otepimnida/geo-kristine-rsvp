@@ -8,8 +8,9 @@ import RSVPTable from "../components/admin/RSVPTable";
 import LoadingState from "../components/admin/LoadingState";
 import ExportButton from "../components/admin/ExportButton";
 import RSVPDetailsModal from "../components/admin/RSVPDetailsModal";
-
+import RSVPEditModal from "../components/admin/RSVPEditModal";
 import useAdminDashboard from "../hooks/useAdminDashboard";
+import { updateRSVP } from "../services/adminService";
 
 function Admin() {
   const {
@@ -26,10 +27,13 @@ function Admin() {
     filteredRSVPs,
 
     lastUpdated,
+
+    refreshDashboard,
   } = useAdminDashboard();
 
   const [selectedGuest, setSelectedGuest] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   function handleViewGuest(guest) {
     setSelectedGuest(guest);
@@ -39,6 +43,34 @@ function Admin() {
   function handleCloseModal() {
     setIsDetailsOpen(false);
     setSelectedGuest(null);
+  }
+
+  function handleEditGuest(guest) {
+    setSelectedGuest(guest);
+
+    setIsDetailsOpen(false);
+
+    setIsEditOpen(true);
+  }
+
+  function handleCloseEditModal() {
+    setIsEditOpen(false);
+
+    setSelectedGuest(null);
+  }
+
+  async function handleSaveGuest(updatedGuest) {
+    try {
+      await updateRSVP(updatedGuest.id, updatedGuest);
+
+      await refreshDashboard();
+
+      setIsEditOpen(false);
+
+      setSelectedGuest(null);
+    } catch (error) {
+      console.error("Failed to update RSVP:", error);
+    }
   }
 
   if (loading) {
@@ -78,6 +110,13 @@ function Admin() {
         open={isDetailsOpen}
         guest={selectedGuest}
         onClose={handleCloseModal}
+        onEdit={handleEditGuest}
+      />
+      <RSVPEditModal
+        open={isEditOpen}
+        guest={selectedGuest}
+        onClose={handleCloseEditModal}
+        onSave={handleSaveGuest}
       />
     </>
   );
