@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const rsvpRoutes = require("./routes/rsvpRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const notFound = require("./middleware/notFound");
 const errorHandler = require("./middleware/errorHandler");
@@ -25,6 +26,8 @@ app.get("/", (req, res) => {
 app.use("/api/rsvp", rsvpRoutes);
 
 app.use("/api/admin", adminRoutes);
+
+app.use("/api/auth", authRoutes);
 
 app.use(notFound);
 
