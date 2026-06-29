@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import DashboardHeader from "../components/admin/DashboardHeader";
 import StatisticsCards from "../components/admin/StatisticsCards";
@@ -9,13 +10,15 @@ import LoadingState from "../components/admin/LoadingState";
 import ExportButton from "../components/admin/ExportButton";
 import RSVPDetailsModal from "../components/admin/RSVPDetailsModal";
 import RSVPEditModal from "../components/admin/RSVPEditModal";
+import DeleteConfirmationModal from "../components/admin/DeleteConfirmationModal";
+
 import useAdminDashboard from "../hooks/useAdminDashboard";
-import { updateRSVP } from "../services/adminService";
+
+import { updateRSVP, deleteRSVP } from "../services/adminService";
 
 function Admin() {
   const {
     loading,
-
     statistics,
 
     search,
@@ -32,8 +35,17 @@ function Admin() {
   } = useAdminDashboard();
 
   const [selectedGuest, setSelectedGuest] = useState(null);
+
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
+  function closeAllModals() {
+    setIsDetailsOpen(false);
+    setIsEditOpen(false);
+    setIsDeleteOpen(false);
+    setSelectedGuest(null);
+  }
 
   function handleViewGuest(guest) {
     setSelectedGuest(guest);
@@ -41,35 +53,50 @@ function Admin() {
   }
 
   function handleCloseModal() {
-    setIsDetailsOpen(false);
-    setSelectedGuest(null);
+    closeAllModals();
   }
 
   function handleEditGuest(guest) {
     setSelectedGuest(guest);
-
     setIsDetailsOpen(false);
-
     setIsEditOpen(true);
-  }
-
-  function handleCloseEditModal() {
-    setIsEditOpen(false);
-
-    setSelectedGuest(null);
   }
 
   async function handleSaveGuest(updatedGuest) {
     try {
       await updateRSVP(updatedGuest.id, updatedGuest);
 
+      toast.success("RSVP updated successfully!");
+
       await refreshDashboard();
 
-      setIsEditOpen(false);
-
-      setSelectedGuest(null);
+      closeAllModals();
     } catch (error) {
-      console.error("Failed to update RSVP:", error);
+      console.error(error);
+
+      toast.error("Failed to update RSVP.");
+    }
+  }
+
+  function handleDeleteGuest(guest) {
+    setSelectedGuest(guest);
+    setIsDetailsOpen(false);
+    setIsDeleteOpen(true);
+  }
+
+  async function handleConfirmDelete(guest) {
+    try {
+      await deleteRSVP(guest.id);
+
+      toast.success("RSVP deleted successfully!");
+
+      await refreshDashboard();
+
+      closeAllModals();
+    } catch (error) {
+      console.error(error);
+
+      toast.error("Failed to delete RSVP.");
     }
   }
 
@@ -111,12 +138,21 @@ function Admin() {
         guest={selectedGuest}
         onClose={handleCloseModal}
         onEdit={handleEditGuest}
+        onDelete={handleDeleteGuest}
       />
+
       <RSVPEditModal
         open={isEditOpen}
         guest={selectedGuest}
-        onClose={handleCloseEditModal}
+        onClose={closeAllModals}
         onSave={handleSaveGuest}
+      />
+
+      <DeleteConfirmationModal
+        open={isDeleteOpen}
+        guest={selectedGuest}
+        onCancel={closeAllModals}
+        onConfirm={handleConfirmDelete}
       />
     </>
   );

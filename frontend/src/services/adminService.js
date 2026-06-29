@@ -27,3 +27,9 @@ export async function updateRSVP(id, rsvpData) {
 
   return normalizeRSVP(response.data.data);
 }
+
+export async function deleteRSVP(id) {
+  await api.delete(`/admin/rsvps/${id}`);
+
+  return true;
+}

@@ -1,10 +1,18 @@
-import { motion, AnimatePresence } from "framer-motion";
-import { FaTimes, FaUser, FaUsers, FaCalendarAlt } from "react-icons/fa";
-import { MdCelebration } from "react-icons/md";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  FaUser,
+  FaUsers,
+  FaCalendarAlt,
+  FaCommentDots,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaEdit,
+  FaTrashAlt,
+} from "react-icons/fa";
 
 import { theme } from "../../styles/theme";
 
-function RSVPDetailsModal({ open, guest, onClose, onEdit }) {
+function RSVPDetailsModal({ open, guest, onClose, onEdit, onDelete }) {
   if (!open || !guest) return null;
 
   return (
@@ -16,73 +24,32 @@ function RSVPDetailsModal({ open, guest, onClose, onEdit }) {
         exit={{ opacity: 0 }}
       >
         <motion.div
+          className="w-full max-w-2xl rounded-3xl p-8 shadow-2xl"
+          style={{
+            background: theme.colors.background,
+          }}
           initial={{
             opacity: 0,
-            scale: 0.9,
-            y: 30,
+            scale: 0.95,
           }}
           animate={{
             opacity: 1,
             scale: 1,
-            y: 0,
           }}
           exit={{
             opacity: 0,
-            scale: 0.9,
-            y: 30,
-          }}
-          transition={{
-            duration: 0.25,
-          }}
-          className="relative w-full max-w-xl rounded-3xl border p-8"
-          style={{
-            background: theme.colors.background,
-            borderColor: theme.colors.border,
-            boxShadow: theme.shadow.card,
+            scale: 0.95,
           }}
         >
-          {/* Close Button */}
-
-          <button
-            onClick={onClose}
-            className="absolute right-6 top-6 transition hover:scale-110"
+          <h2
+            className="mb-8 text-center text-4xl"
+            style={{
+              color: theme.colors.primary,
+              fontFamily: theme.fonts.heading,
+            }}
           >
-            <FaTimes size={22} color={theme.colors.secondary} />
-          </button>
-
-          {/* Header */}
-
-          <div className="mb-8 text-center">
-            <MdCelebration
-              size={42}
-              style={{
-                color: theme.colors.primary,
-                margin: "0 auto",
-              }}
-            />
-
-            <h2
-              className="mt-3 text-3xl"
-              style={{
-                color: theme.colors.primary,
-                fontFamily: theme.fonts.heading,
-              }}
-            >
-              RSVP Details
-            </h2>
-
-            <p
-              className="mt-2"
-              style={{
-                color: theme.colors.secondary,
-                fontFamily: theme.fonts.body,
-              }}
-            >
-              Guest RSVP Information
-            </p>
-          </div>
-
-          {/* Content */}
+            RSVP Details
+          </h2>
 
           <div className="space-y-6">
             <InfoRow
@@ -92,7 +59,13 @@ function RSVPDetailsModal({ open, guest, onClose, onEdit }) {
             />
 
             <InfoRow
-              icon={<MdCelebration />}
+              icon={
+                guest.attendance === "Yes, Joyfully!" ? (
+                  <FaCheckCircle />
+                ) : (
+                  <FaTimesCircle />
+                )
+              }
               label="Attendance"
               value={guest.attendance}
             />
@@ -104,44 +77,41 @@ function RSVPDetailsModal({ open, guest, onClose, onEdit }) {
             />
 
             <InfoRow
-              icon={<FaCalendarAlt />}
-              label="Submitted"
-              value={guest.createdAt}
+              icon={<FaCommentDots />}
+              label="Message"
+              value={guest.message || "-"}
             />
 
-            <div>
-              <p
-                className="mb-2 font-semibold"
-                style={{
-                  color: theme.colors.primary,
-                }}
-              >
-                Message
-              </p>
-
-              <div
-                className="rounded-2xl border p-4"
-                style={{
-                  borderColor: theme.colors.border,
-                }}
-              >
-                {guest.message || "No message provided."}
-              </div>
-            </div>
+            <InfoRow
+              icon={<FaCalendarAlt />}
+              label="Date Submitted"
+              value={new Date(guest.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            />
           </div>
-
-          {/* Footer */}
 
           <div className="mt-10 flex justify-end gap-4">
             <button
+              onClick={() => onDelete(guest)}
+              className="flex items-center gap-2 rounded-xl bg-red-600 px-5 py-3 text-white transition hover:bg-red-700"
+            >
+              <FaTrashAlt />
+              Delete RSVP
+            </button>
+
+            <button
               onClick={() => onEdit(guest)}
-              className="rounded-xl border px-6 py-3 transition hover:bg-slate-100"
+              className="flex items-center gap-2 rounded-xl border px-5 py-3 transition"
               style={{
-                borderColor: theme.colors.border,
+                borderColor: theme.colors.primary,
                 color: theme.colors.primary,
               }}
             >
-              ✏ Edit RSVP
+              <FaEdit />
+              Edit RSVP
             </button>
 
             <button
@@ -162,11 +132,10 @@ function RSVPDetailsModal({ open, guest, onClose, onEdit }) {
 
 function InfoRow({ icon, label, value }) {
   return (
-    <div className="flex items-start gap-4">
+    <div className="flex gap-5 rounded-2xl border p-5">
       <div
-        className="rounded-xl p-3"
+        className="mt-1 text-xl"
         style={{
-          background: "#F8F5F2",
           color: theme.colors.primary,
         }}
       >
@@ -184,12 +153,12 @@ function InfoRow({ icon, label, value }) {
         </p>
 
         <p
-          className="mt-1 text-lg font-semibold"
+          className="mt-1 text-lg font-medium"
           style={{
             color: theme.colors.primary,
           }}
         >
-          {value || "-"}
+          {value}
         </p>
       </div>
     </div>
