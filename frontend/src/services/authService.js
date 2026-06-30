@@ -27,3 +27,7 @@ export function isAuthenticated() {
 export function getToken() {
   return localStorage.getItem("token");
 }
+
+export function getCurrentAdmin() {
+  return localStorage.getItem("admin");
+}
